@@ -1,0 +1,17 @@
+[package]
+name = "{{project-name}}"
+version = "0.1.0"
+authors = ["{{authors}}"]
+edition = "2021"
+description = "{{description}}"
+license = "AGPL-3.0-or-later"
+
+[dependencies]
+log = "0.4.17"
+env_logger = "0.10.0"
+clap = { version = "4.0.32", features = ["derive", "color"] }
+anyhow = "1.0.82"
+strum = { version = "0.26.2", features = ["derive"] }
+serde = { version = "1.0.198", features = ["derive"] }
+toml = { version = "0.8.12", features = ["indexmap"] }
+indexmap = "2.2.6"
