@@ -54,7 +54,7 @@
       assetsOrCargo = path: type: (assetsFilter path type) || (craneLib.filterCargoSources path type);
 
       craneLib = (crane.mkLib pkgs).overrideToolchain rust;
-      TEMPLATE_PROJECT_NAME = craneLib.buildPackage (lib.recursiveUpdate commonEnvironment {
+      {{project-name}} = craneLib.buildPackage (lib.recursiveUpdate commonEnvironment {
         pname = crateInfo.pname;
         version = crateInfo.version;
         nativeBuildInputs = with pkgs; [makeWrapper];
@@ -70,13 +70,13 @@
       });
     in {
       checks = {
-        inherit TEMPLATE_PROJECT_NAME;
+        inherit {{project-name}};
       };
 
-      packages.default = TEMPLATE_PROJECT_NAME;
+      packages.default = {{project-name}};
 
       apps.default = flake-utils.lib.mkApp {
-        drv = TEMPLATE_PROJECT_NAME;
+        drv = {{project-name}};
       };
 
       devShells.default = craneLib.devShell (lib.recursiveUpdate commonEnvironment {
