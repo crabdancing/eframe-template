@@ -34,7 +34,7 @@
         };
         
         craneLib = (crane.mkLib pkgs).overrideToolchain rust;
-        my-crate = craneLib.buildPackage {
+        TEMPLATE_PROJECT_NAME = craneLib.buildPackage {
           src = craneLib.cleanCargoSource (craneLib.path ./.);
           strictDeps = true;
 
@@ -51,13 +51,13 @@
       in
       {
         checks = {
-          inherit my-crate;
+          inherit TEMPLATE_PROJECT_NAME;
         };
 
-        packages.default = my-crate;
+        packages.default = TEMPLATE_PROJECT_NAME;
 
         apps.default = flake-utils.lib.mkApp {
-          drv = my-crate;
+          drv = TEMPLATE_PROJECT_NAME;
         };
 
         devShells.default = craneLib.devShell {
