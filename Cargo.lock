@@ -6,7 +6,6 @@ version = 3
 name = "TEMPLATE_PROJECT_NAME"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "bevy_core",
  "bevy_math",
  "clap",
@@ -21,6 +20,7 @@ dependencies = [
  "log",
  "rfd",
  "serde",
+ "snafu",
  "strum",
  "toml",
 ]
@@ -3527,6 +3527,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd538fb6910ac1099850255cf94a94df6551fbdd602454387d0adb2d1ca6dead"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "snafu"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "418b8136fec49956eba89be7da2847ec1909df92a9ae4178b5ff0ff092c8d95e"
+dependencies = [
+ "snafu-derive",
+]
+
+[[package]]
+name = "snafu-derive"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1a4812a669da00d17d8266a0439eddcacbc88b17f732f927e52eeb9d196f7fb5"
+dependencies = [
+ "heck",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.66",
 ]
 
 [[package]]

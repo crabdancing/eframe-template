@@ -21,7 +21,6 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     crane,
     flake-utils,
@@ -69,20 +68,6 @@
             --prefix LD_LIBRARY_PATH : "${LD_LIBRARY_PATH}"
         '';
       });
-      # craneLib.buildPackage {
-      #   src = craneLib.cleanCargoSource (craneLib.path ./.);
-      #   strictDeps = true;
-      #   buildInputs =
-      #     [
-      #       # Add additional build inputs here
-      #     ]
-      #     ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
-      #       # Additional darwin specific inputs can be set here
-      #       pkgs.libiconv
-      #     ];
-      # Additional environment variables can be set directly
-      # MY_CUSTOM_VAR = "some value";
-      # };
     in {
       checks = {
         inherit TEMPLATE_PROJECT_NAME;

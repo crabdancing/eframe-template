@@ -1,49 +1,41 @@
-// use clap::{Args, Parser, Subcommand};
-// use log::debug;
-
-// #[derive(Debug, Parser)]
-// #[command(name = "hello-world")]
-// /// A demo program for getting started quickly
-// struct HelloWorld {
-//     #[command(subcommand)]
-//     command: Commands,
-// }
-
-// #[derive(Debug, Subcommand)]
-// enum Commands {
-//     Greet(ArgsGreet),
-// }
-
-// #[derive(Debug, Args)]
-// /// Says hello
-// struct ArgsGreet {
-//     #[clap(short, long)]
-//     greeting: String,
-//     #[clap(short, long)]
-//     name: String,
-// }
-
-// fn greet_cmd(args: &ArgsGreet, _cli: &HelloWorld) {
-//     println!("{}, {}", args.greeting, args.name);
-// }
-
-// fn main() -> anyhow::Result<()> {
-//     env_logger::init();
-//     let cli = HelloWorld::parse();
-//     debug!("{:?}", &cli);
-//     match cli.command {
-//         Commands::Greet(ref args) => greet_cmd(&args, &cli),
-//     }
-//     Ok(())
-// }
-
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 #![allow(rustdoc::missing_crate_level_docs)] // it's an example
 
+use clap::{Args, Parser, Subcommand};
 use eframe::egui;
+use log::debug;
+use snafu::{ResultExt, Whatever};
 
-fn main() -> Result<(), eframe::Error> {
-    env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
+#[derive(Debug, Parser)]
+#[command(name = "hello-world")]
+struct HelloWorld {
+    #[command(subcommand)]
+    command: Option<Commands>,
+}
+
+#[derive(Debug, Subcommand)]
+enum Commands {
+    Greet(ArgsGreet),
+    Gui(ArgsGui),
+}
+
+#[derive(Debug, Args)]
+struct ArgsGreet {
+    #[clap(short, long)]
+    greeting: String,
+    #[clap(short, long)]
+    name: String,
+}
+
+#[derive(Debug, Args, Default)]
+struct ArgsGui {}
+
+fn greet_cmd(args: &ArgsGreet, _cli: &HelloWorld) -> Result<(), Whatever> {
+    println!("{}, {}", args.greeting, args.name);
+    Ok(())
+}
+
+fn gui_cmd(_args: &ArgsGui, _cli: &HelloWorld) -> Result<(), Whatever> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default().with_inner_size([320.0, 240.0]),
         ..Default::default()
@@ -53,6 +45,18 @@ fn main() -> Result<(), eframe::Error> {
         options,
         Box::new(|_cc| Box::<MyApp>::default()),
     )
+    .with_whatever_context(|_| "Failed to execute eframe app")
+}
+
+fn main() -> Result<(), Whatever> {
+    env_logger::init();
+    let cli = HelloWorld::parse();
+    debug!("{:?}", &cli);
+    match cli.command {
+        Some(Commands::Greet(ref args)) => greet_cmd(&args, &cli),
+        Some(Commands::Gui(ref args)) => gui_cmd(&args, &cli),
+        None => gui_cmd(&ArgsGui::default(), &cli),
+    }
 }
 
 #[derive(Default)]

@@ -22,5 +22,5 @@ derive_more = "0.99.17"
 toml = "0.8.13"
 log = "0.4.17"
 clap = { version = "4.0.32", features = ["derive", "color"] }
-anyhow = "1.0.82"
 strum = { version = "0.26.2", features = ["derive"] }
+snafu = "0.8.3"
