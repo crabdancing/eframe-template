@@ -7,11 +7,21 @@ description = "{{description}}"
 license = "AGPL-3.0-or-later"
 
 [dependencies]
+bevy_math = "0.13"
+eframe = "0.26"
+egui = "0.26"
+egui_plot = "0.26"
+env_logger = "0.11.3"
+image = "0.25.1"
+itertools = "0.12.1"
+rfd = "0.14.1"
+convert_bevy_egui = { path = "../convert_bevy_egui" }
+emath = "0.26"
+bevy_core = "0.13"
+serde = { version = "1.0.201", features = ["derive"] }
+derive_more = "0.99.17"
+toml = "0.8.13"
 log = "0.4.17"
-env_logger = "0.10.0"
 clap = { version = "4.0.32", features = ["derive", "color"] }
 anyhow = "1.0.82"
 strum = { version = "0.26.2", features = ["derive"] }
-serde = { version = "1.0.198", features = ["derive"] }
-toml = { version = "0.8.12", features = ["indexmap"] }
-indexmap = "2.2.6"
